@@ -22,7 +22,7 @@ func (a *apiServer) PutTar(server pfs.API_PutTarServer) (retErr error) {
 		if err != nil {
 			return 0, err
 		}
-		if !a.env.NewStorageLayer {
+		if !a.env.StorageV2 {
 			return 0, errors.Errorf("new storage layer disabled")
 		}
 		repo := req.Commit.Repo.Name
@@ -83,7 +83,7 @@ func (a *apiServer) GetTar(request *pfs.GetTarRequest, server pfs.API_GetTarServ
 	func() { a.Log(request, nil, nil, 0) }()
 	defer func(start time.Time) { a.Log(request, nil, retErr, time.Since(start)) }(time.Now())
 	return metrics.ReportRequestWithThroughput(func() (int64, error) {
-		if !a.env.NewStorageLayer {
+		if !a.env.StorageV2 {
 			return 0, errors.Errorf("new storage layer disabled")
 		}
 		repo := request.File.Commit.Repo.Name
@@ -119,7 +119,7 @@ func (a *apiServer) GetTarConditional(server pfs.API_GetTarConditionalServer) (r
 		if err != nil {
 			return 0, err
 		}
-		if !a.env.NewStorageLayer {
+		if !a.env.StorageV2 {
 			return 0, errors.Errorf("new storage layer disabled")
 		}
 		repo := request.File.Commit.Repo.Name

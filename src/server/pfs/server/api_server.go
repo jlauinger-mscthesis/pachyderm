@@ -170,7 +170,7 @@ func (a *apiServer) StartCommitInTransaction(
 	if commit != nil {
 		id = commit.ID
 	}
-	if a.env.NewStorageLayer {
+	if a.env.StorageV2 {
 		var commit *pfs.Commit
 		err := metrics.ReportRequest(func() error {
 			var err error
@@ -233,7 +233,7 @@ func (a *apiServer) FinishCommitInTransaction(
 	txnCtx *txnenv.TransactionContext,
 	request *pfs.FinishCommitRequest,
 ) error {
-	if a.env.NewStorageLayer {
+	if a.env.StorageV2 {
 		return metrics.ReportRequest(func() error {
 			return a.driver.finishCommitNewStorageLayer(txnCtx, request.Commit, request.Description)
 		})
