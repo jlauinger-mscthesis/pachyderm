@@ -105,7 +105,7 @@ func (r *Reader) next() (*Index, error) {
 		pbr := r.levels[len(r.levels)-1]
 		idx := &Index{}
 		if err := pbr.Read(idx); err != nil {
-			return nil, errors.Wrapf(err, "error reading pb")
+			return nil, err
 		}
 		// (bryce) not sure if this is the best way to represent emptiness.
 		if idx.DataOp == nil {
@@ -214,7 +214,7 @@ func (lr *levelReader) setup() error {
 func (lr *levelReader) next() error {
 	lr.idx.Reset()
 	if err := lr.parent.Read(lr.idx); err != nil {
-		return errors.Wrapf(err, "error reading pb")
+		return err
 	}
 	lr.cr.NextDataRefs(lr.idx.DataOp.DataRefs)
 	lr.buf.Reset()
